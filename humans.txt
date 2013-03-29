@@ -1,0 +1,19 @@
+/* the humans responsible & colophon */
+/* humanstxt.org */
+
+/* TEAM */
+  Pixel juicer: Carlos Mañas
+  Site: Sidiostedalimones.com
+  Twitter: @oneeyedman
+  Location: Madrid / Granada (Spain)
+
+/* THANKS */
+   Thanks to Brigada Creativa because they created the life calendar "how was your day?": http://www.etsy.com/listing/63763171/life-calendar-how-was-your-day 
+   www.brigadacreativa.com: @brigadacreativa
+
+/* SITE */
+  Standards: HTML5, CSS3
+  Components: Modernizr, jQuery
+  Software: Sublime Text 2, Coffee
+
+
