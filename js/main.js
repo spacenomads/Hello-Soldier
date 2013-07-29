@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	
 	// Toggles day/year view
 	$('li .face').click(function() {
 		$('.year').toggleClass('fullscreen');

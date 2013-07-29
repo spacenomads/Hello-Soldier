@@ -64,9 +64,11 @@
 		$iconos[$nodo]['day'] = $myyear->day[$i];
 		$iconos[$nodo]['face'] = $face;
 		$iconos[$nodo]['date'] = $myyear->day[$i]['date'];
+		$iconos[$nodo]['summary'] = $myyear->day[$i]['summary'];
+
 	}
 
-	echo '<!-- stats: ' . $stats['ok'] . ' - ' . $stats['ko'] . ' -->' ;
+	echo '<!-- stats: :) vs. :( - ' . $stats['ok'] . ' - ' . $stats['ko'] . ' -->' ;
  ?>
 
 <div id="main" role="main">
@@ -79,6 +81,8 @@
 		<li class="day day<?php echo $iconos[$i]['id']; ?>" title="<?php echo $iconos[$i]['date']; ?>">
 				<i class="face <?php echo $iconos[$i]['day']; ?>"><?php echo $iconos[$i]['face']; ?></i>
 				<time class="date" datetime="<?php echo $iconos[$i]['date']; ?>"><?php echo $iconos[$i]['date']; ?></time>
+<?php if ($iconos[$i]['face'] === ':)') { ?>				<p class="summary"><?php echo $iconos[$i]['summary'] ?></p>
+<?php } ?>
 		</li>
 <?php 
 	}

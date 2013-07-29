@@ -11,7 +11,7 @@
 
 	<link rel="shortcut icon" type="image/x-icon" href="lemon.ico" />
 	<link type="text/html" rel="author" href="humans.txt"/>
-	<!--<link rel="stylesheet" href="css/smoothness/jquery-ui-1.9.0.custom.min.css" />-->
+	<link rel="stylesheet" href="css/smoothness/jquery-ui-1.9.2.custom.min.css" />
 	<link rel="stylesheet" href="css/style.css" />
 	<link href="http://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" type="text/css" />
 
