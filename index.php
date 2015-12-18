@@ -23,7 +23,7 @@
 	echo '<!--' . $current_day . '-->';
 
 	// constantes
-	$year = '2015_test';
+	$year = '2015';
 	$bday = '13-10-' . $year;
 	$bday_face = ':D';
 
@@ -34,7 +34,7 @@
 	$dday_face = ':(';
 
 	//$myyear = simplexml_load_file('year/2013_alt.xml');
-	$myyear = simplexml_load_file('year/2015_test.xml');
+	$myyear = simplexml_load_file('year/2015.xml');
 	$days = count($myyear);
 	$month = '';
 	$total_days = 365;
