@@ -15,4 +15,4 @@
 	<link rel="stylesheet" href="css/style.css" />
 	<link href="http://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" type="text/css" />
 
-	<script src="js/libs/modernizr-2.5.3.min.js"></script>
+	<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>

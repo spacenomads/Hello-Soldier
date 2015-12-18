@@ -1,30 +1,52 @@
 @import "reset.scss";
-//	
+//
 //	INDEX
-//	
+//
 //	$0 SASS
 //
 //	$1 LAYOUT
 //	$2 DAY
 //	$3 LOGIN
 //	$4 EDITOR
+//	$5 STATS
+//	$6 GRAPHS
+//	$6.1 Bar graph
 //
 //	$Q Media Queries
-//	
+//
 
 // $0 SASS
 $c_white:#fff;
 $c_black:#424242;
+$c_yellow:#fc0;
+$c_red:#ff5335;
+$c_blue:#07c;
 $c_face:#ccc;
-$c_face_ok:#fc0;
-$c_face_ok:#fc0;
-$c_face_ko:#ff5335;
+$c_face_ok:$c_yellow;
+$c_face_ko:$c_red;
+$c_face_bday:$c_blue;
+$c_face_dday:#000;
+$c_face_cday: deeppink;
 
 $f_base:'Varela Round', arial,sans-serif;
 $m_px:16;
 
 @function em($px, $base: $m_px) {
 	@return ($px / $base) * 1em;
+}
+
+@mixin box-sizing($type:border-box){
+	-webkit-box-sizing: $type;
+	-moz-box-sizing: $type;
+	box-sizing: $type;
+}
+
+@mixin transition($time:1s, $item:all){
+	-webkit-transition: $item ease $time;
+	-moz-transition: $item ease $time;
+	-ms-transition: $item ease $time;
+	-o-transition: $item ease $time;
+	transition: $item ease $time;
 }
 
 // $1 LAYOUT
@@ -36,7 +58,11 @@ body{
 	font:100% $f_base;
 	color:$c_black;
 	margin:0;
+	@include transition(1s, background);
 	}
+body.ok{background:$c_face_ok;}
+body.ko{background:$c_face_ko;}
+body.bday{background:$c_face_bday;}
 .year{
 	display:block;
 	list-style:none;
@@ -52,7 +78,7 @@ body{
 .face{
 	background:$c_face;
 	border-radius:50%;
-	color:#ccc;
+	color:mix($c_white,$c_face,40%);
 	cursor:pointer;
 	display:block;
 	font-size:1.5em;
@@ -62,12 +88,27 @@ body{
 	text-align:center;
 	width:2em;
 	}
+.bday .face.ok,
+.bday .face.ko{
+	background:$c_face_bday;
+	color:$c_white;
+	}
+.dday .face.ok,
+.dday .face.ko{
+	background:$c_face_dday;
+	color:mix($c_white, $c_black, 50%);
+	}
+.cday .face.ok,
+.cday .face.ko{
+	background:$c_face_cday;
+	color:$c_white;
+	}
 .face.ok{
 	background:$c_face_ok;
 	color:$c_black;
 	}
 .face.ko{
-	background:#ff5335;
+	background:$c_face_ko;
 	color:#fff;
 	}
 .date{display:none;}
@@ -107,6 +148,114 @@ body{
 
 // $4 EDITOR
 .editor{padding:em(50);}
+
+// $5 STATS
+.stats{
+	height:.2em;
+	left:0px;
+	position:fixed;
+	top:0px;
+	-webkit-transition: height ease 1s;
+	-moz-transition: height ease 1s;
+	-ms-transition: height ease 1s;
+	-o-transition: height ease 1s;
+	transition: height ease 1s;
+	width:100%;
+	&:hover{
+		height:1.5em;
+		.days .value{top:.2em;}
+		}
+	.days{
+		height:100%;
+		position:absolute;
+		top:0px;
+		width:0%;
+		.value{
+			color:$c_white;
+			position:absolute;
+			top:-1em;
+			-webkit-transition: top ease 1.5s;
+			-moz-transition: top ease 1.5s;
+			-ms-transition: top ease 1.5s;
+			-o-transition: top ease 1.5s;
+			transition: top ease 1.5s;
+		}
+		&.good{
+			background:$c_face_ok;
+			left:0px;
+			z-index:2;
+			.value{
+				color:$c_black;
+				right:.5em;
+				}
+			}
+		&.bad{
+			background:$c_face_ko;
+			right:0px;
+			z-index:1;
+			.value{left:.5em;}
+			}
+	}
+}
+
+//	$6 GRAPHS
+//	$6.1 Bar graph
+.bar_graph{
+	background:rgba($c_white,.9);
+	border-top:1px solid #ccc;
+	-webkit-box-shadow: 0px 0px 50px rgba(0, 0, 0, .3);
+	-moz-box-shadow: 0px 0px 50px rgba(0, 0, 0, .3);
+	box-shadow: 0px 0px 50px rgba(0, 0, 0, .3);
+	bottom:0px;
+	display:none;
+	height:em(150);
+	overflow: hidden;
+	position:fixed;
+	left:0px;
+	width:100%;
+	.bars{
+		@include box-sizing();
+		height:100%;
+		list-style:none;
+		overflow: hidden;
+		margin:0 em(20);
+		padding:0;
+		}
+	.week.bars{
+		margin:0 auto;
+		width:60%;
+	}
+	.bar{
+		background:mix($c_white,$c_black,90%);
+		border:1px solid $c_white;
+		border-width: em(20) em(5) em(20) 0;
+		@include box-sizing();
+		float:left;
+		height:100%;
+		overflow: hidden;
+		position:relative;
+		.progress{
+			background:red;
+			display:block;
+			bottom:0px;
+			position:absolute;
+			width:100%;
+			}
+		&.good .progress{background:$c_face_ok;}
+		&.bad .progress{background:$c_face_ko;}
+		.number{
+			color:mix($c_white,$c_black,50%);
+			font-size:em(8);
+			padding:em(5);
+			position:absolute;
+			right:2px;
+			top:0px;
+			text-align:right;
+			z-index:2;
+			}
+		}
+	}
+
 
 // $Q Media Queries
 
