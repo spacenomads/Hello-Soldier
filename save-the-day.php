@@ -14,6 +14,9 @@
 
 		$year['soldier']['day'][$_POST['today_doy']-1]['id'] = $_POST['today_doy'];
 		$year['soldier']['day'][$_POST['today_doy']-1]['date'] = $_POST['today_date'];
+		if ( $_POST['today_phrase'] != '' ) {
+			$year['soldier']['day'][$_POST['today_doy']-1]['summary'] = $_POST['today_phrase'];
+		}
 		$year['soldier']['day'][$_POST['today_doy']-1]['mood'] = $_POST['today_mood'];
 
 ?>
@@ -29,10 +32,15 @@
 	</fieldset>
 </form>
 <?php
-	echo '<pre>' . print_r( $year, true ) . '</pre>';
+	//hay datos
+	//echo '<pre>' . print_r( $year, true ) . '</pre>';
+	$updated_year = json_encode( $year );
+	$year_file = fopen('year/2015.json', 'w');
+	fwrite($year_file, $updated_year );
+	fclose($year_file);
  ?>
+	<h1>Archivo guardado</h1>
 <?php
-  	//hay datos
 	} else {
 		//No hay na de na
 ?>
