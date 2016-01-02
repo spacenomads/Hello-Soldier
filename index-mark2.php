@@ -5,6 +5,7 @@
 	<title>Hello Soldier - Mark II</title>
 </head>
 <body>
+
 <?php
 	/**
 	 * Check wether is a leap year or not
@@ -48,22 +49,44 @@
 	 * @return string    <li> with the complete day information
 	 */
 	function write_my_day( $d ) {
-		global $year, $mood;
+		global $year, $mood, $special_days;
 
 		if ( $year['soldier']['day'][$d] ) {
+
 
 			$my_mood = $year['soldier']['day'][$d]['mood'];
 			$my_date = $year['soldier']['day'][$d]['date'];
 
-			// check special date
+			if ( $special_days[$d] ) {
 
-			$day = '<li class="day day_' . ( $d + 1 ) . '" data-day="' . ( $d + 1 ) . '">';
-			$day .= '<div class="face face_' . $my_mood . '">' . $mood[ $my_mood ] . '</div>';
-			$day .= '<time class="date" datetime="' . $my_date . '">' . $my_date . '</time>';
-			if ( $my_mood === 'ok' ) {
-				$day .= '<p class="summary">' . $year['soldier']['day'][$d]['summary'] . '</p>';
+				// Special day
+				$day = '<li class="day day_' . ( $d + 1 ) . ' ' . $special_days[$d]['class'] . '" data-day="' . ( $d + 1 ) . '">';
+				if ( $my_mood === 'ok' ) {
+					$day .= '<div class="face face_' . $my_mood . '">' . $special_days[$d]['icon'] . '</div>';
+				} else {
+					$day .= '<div class="face face_' . $my_mood . '">' . $mood[ $my_mood ] . '</div>';
+				}
+
+				$day .= '<time class="date" datetime="' . $my_date . '">' . $my_date . '</time>';
+				if ( $my_mood === 'ok' ) {
+					$day .= '<p class="summary">' . $year['soldier']['day'][$d]['summary'] . '</p>';
+				}
+				$day .= '</li>';
+
+			 } else {
+
+				// Normal calendar day
+				$day = '<li class="day day_' . ( $d + 1 ) . '" data-day="' . ( $d + 1 ) . '">';
+				$day .= '<div class="face face_' . $my_mood . '">' . $mood[ $my_mood ] . '</div>';
+				$day .= '<time class="date" datetime="' . $my_date . '">' . $my_date . '</time>';
+				if ( $my_mood === 'ok' ) {
+					$day .= '<p class="summary">' . $year['soldier']['day'][$d]['summary'] . '</p>';
+				}
+				$day .= '</li>';
+
 			}
-			$day .= '</li>';
+
+
 
 		} else {
 			$day = '<li class="day"><div class="face">' . '?' . '</div></li>';
@@ -72,6 +95,11 @@
 		return $day;
 	}
 
+
+
+	function day_of_the_year($day, $month, $year) {
+		return date('z', mktime( 0,0,0,$month,$day,$year));
+	}
 
 
 
@@ -85,6 +113,21 @@
 	if ( is_leap_year( $actual_year ) ) {
 		$year_days = 366;
 	}
+
+	$special_days = array(
+		(day_of_the_year(26, 1, $actual_year)) => array(
+			'date' => '26-01-' . $actual_year,
+			'class' => 'cday',
+			'icon' => ':D'
+		),
+		(day_of_the_year(13, 10, $actual_year)) => array(
+			'date' => '13-10-' . $actual_year,
+			'class' => 'bday',
+			'icon' => ':D'
+		)
+	);
+	//echo '>> ' . $special_days[26]['date'] . '<br>';
+	//echo '>> ' . $special_days[286]['date'] . '<br>';
 
 ?>
 	<div class="page calendar_view">
