@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		.button-auth, .button-out, .comment-container, .cms {
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="auth">
+		<button class="button-auth js-button-auth" onClick="openAuth()">Auth</button>
+		<button class="button-out js-button-out" onClick="signOut()">Sign Out</button>
+	</div>
+
+	<div class="cms js-cms">
+		<div class="entry-container">
+			<input type="date" class="day js-day">
+			<div class="status-container">
+				<div class="goodDay-container">:) <input type="radio" onClick="checkStatus()" name="status" class="goodDay js-goodDay"></div>
+				<div class="badDay-container">:( <input type="radio" onClick="checkStatus()" name="status" class="badDay js-badDay"></div>
+			</div>
+			<div class="comment-container js-comment-container">
+				<input type='text' placeholder="Add your comment here" class="comment js-comment"/>
+			</div>
+			<button class="button-write" onClick="writeDB()">Write</button>
+		</div>
+	</div>
+	<div class="entries js-entries"></div>
+
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-app.js"></script>
+
+	<script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-database.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+		https://firebase.google.com/docs/web/setup#available-libraries -->
+
+	<script>
+		// Your web app's Firebase configuration
+		var firebaseConfig = {
+			apiKey: "AIzaSyD-e7Ax6Kq2vlUu77x499hMZcJxg9UjPJo",
+			authDomain: "calendar-one-eye.firebaseapp.com",
+			databaseURL: "https://calendar-one-eye.firebaseio.com",
+			projectId: "calendar-one-eye",
+			storageBucket: "calendar-one-eye.appspot.com",
+			messagingSenderId: "743119118129",
+			appId: "1:743119118129:web:04abd2db079f859152da10"
+		};
+		// Initialize Firebase
+		firebase.initializeApp(firebaseConfig);
+
+		// Set Firebase vars
+		var auth = firebase.auth()
+		const provider = new firebase.auth.GoogleAuthProvider();
+		var database = firebase.database();
+
+		// Firebase auth methods
+		auth.onAuthStateChanged(onAuthStateChanged.bind(this));
+
+		// Find DOM elements
+		var buttonAuth = document.querySelector('.js-button-auth')
+		var buttonOut = document.querySelector('.js-button-out')
+		var divCms = document.querySelector('.js-cms')
+		var selectDay = document.querySelector('.js-day')
+		var divEntries = document.querySelector('.js-entries')
+		var radioGoodDay = document.querySelector('.js-goodDay')
+		var radioBadDay = document.querySelector('.js-badDay')
+		var divCommentContainer = document.querySelector('.js-comment-container')
+		var inputComment = document.querySelector('.js-comment')
+
+
+		// Read DB
+		readDB()
+
+		// Form methods
+		function checkIfEntryIsRight() {
+			let isRight = true
+			if(!selectDay.value || (!radioGoodDay.checked && !radioBadDay.checked) ){
+				isRight = false
+			}
+			return isRight
+		}
+
+		function checkStatus() {
+			if (radioGoodDay.checked) {
+				divCommentContainer.style.display = 'block';
+			} else {
+				inputComment.value = null
+				divCommentContainer.style.display = 'none';
+			}
+		}
+
+		function getEmojiToSend(){
+			var emoji = '?'
+			if (radioGoodDay.checked) {
+				emoji = ':)'
+			} else if (radioBadDay.checked) {
+				emoji = ':('
+			}
+			return emoji
+		}
+
+		// Auth methods
+		function openAuth() {
+			auth.signInWithPopup(provider);
+		}
+
+		function signOut () {
+			auth.signOut();
+		}
+
+		function onAuthStateChanged(user) {
+			if(user){ 
+				console.log('El que poner en las rules es', user.uid);
+				// console.log(user, user.photoURL, user.displayName, user.email);
+				buttonOut.style.display = 'inline'
+				buttonAuth.style.display = 'none'
+				divCms.style.display = 'inline'
+			} else {
+				buttonAuth.style.display = 'inline'
+				buttonOut.style.display = 'none'
+				divCms.style.display = 'none'
+			}
+		}
+
+		// DB methods
+		function readDB () {
+			var entriesRef = database.ref('/')
+			entriesRef.on('value', function(snapshot) {
+				if(snapshot.val()) {
+					renderEntries(snapshot.val());
+				}
+			});
+		}
+
+		function writeDB () {
+			if (checkIfEntryIsRight()) {
+				var year = selectDay.value.substr(0,4)
+				database.ref(year + '/' + selectDay.valueAsNumber).set({
+					status: getEmojiToSend(),
+					comment: inputComment.value
+				});
+				inputComment.value = null
+			}
+		}
+
+		function renderEntries (object) {
+			divEntries.innerHTML = ''
+			var year = (object['2020']);
+			for (const property in year) {
+				let date = new Date(Number(property)).toDateString()
+				divEntries.innerHTML += '<div>'
+				divEntries.innerHTML += date + ' / ' + year[property].status
+				if(year[property].comment) {
+					divEntries.innerHTML +=  ' / comment: ' + year[property].comment
+				}
+				divEntries.innerHTML += '</div>'
+			}
+		}
+	</script>
+</body>
+</html>
