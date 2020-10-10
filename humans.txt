@@ -3,17 +3,17 @@
 
 /* TEAM */
   Pixel juicer: Carlos Mañas
-  Site: Sidiostedalimones.com
+  Site: spacenomads.com
   Twitter: @oneeyedman
-  Location: Madrid / Granada (Spain)
+  Location: Alcorcón / Granada (Spain)
 
 /* THANKS */
-   Thanks to Brigada Creativa because they created the life calendar "how was your day?": http://www.etsy.com/listing/63763171/life-calendar-how-was-your-day 
+   Thanks to Brigada Creativa because they created the life calendar "how was your day?": http://artfucksme.com/how-was-your-day-life-calendar-by-brigada-cre/ 
    www.brigadacreativa.com: @brigadacreativa
 
 /* SITE */
   Standards: HTML5, CSS3
-  Components: Modernizr, jQuery
-  Software: Sublime Text 2, Coffee
+  Components: Coffee
+  Software: VS Code, Sketch 
 
 
