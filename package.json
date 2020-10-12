@@ -1,0 +1,25 @@
+{
+  "name": "hellosoldier",
+  "version": "1.0.0",
+  "description": "My online version of Brigada Creativa's **Life Calendar \"how was your day?\"** ( [http://artfucksme.com/how-was-your-day-life-calendar-by-brigada-cre/](http://artfucksme.com/how-was-your-day-life-calendar-by-brigada-cre/) )",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spacenomads/Hello-Soldier.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spacenomads/Hello-Soldier/issues"
+  },
+  "homepage": "https://github.com/spacenomads/Hello-Soldier#readme",
+  "devDependencies": {
+    "stylelint": "^13.7.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-scss": "^3.18.0"
+  }
+}
