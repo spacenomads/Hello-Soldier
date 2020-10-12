@@ -1,10 +1,13 @@
-function newElement(element, elementClass, elementContent='') {
-	const newElement = document.createElement(element);
-	newElement.className = elementClass;
-	const newContent = document.createTextNode(elementContent);
-	elementContent && newElement.appendChild(newContent);
-
-	return newElement;
+function createNewElement(el, elClass, elContent='') {
+	const element = document.createElement(el);
+	element.className = elClass;
+	const newContent = document.createTextNode(elContent);
+	elContent && element.appendChild(newContent);
+	return element;
 }
 
-export {newElement};
+
+
+
+
+export {createNewElement};

@@ -6,7 +6,7 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="assets/css/app.css">
 </head>
-<body>
+<body class="app js__app">
 	<div class="auth">
 		<button class="button-auth js-button-auth" onClick="openAuth()">Auth</button>
 		<button class="button-out js-button-out" onClick="signOut()">Sign Out</button>
@@ -29,138 +29,10 @@
 
 	<div class="calendar__outer"></div>
 
-	<!-- The core Firebase JS SDK is always required and must be listed first -->
-	<script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-app.js"></script>
 
+	<script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-auth.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-database.js"></script>
-
-	<!-- TODO: Add SDKs for Firebase products that you want to use
-		https://firebase.google.com/docs/web/setup#available-libraries -->
-
-	<script>
-		// Your web app's Firebase configuration
-		var firebaseConfig = {
-			apiKey: "AIzaSyAUnf5mCG7bqxrrtytv95R8MRznFX9Psy8",
-    authDomain: "hello-soldier.firebaseapp.com",
-    databaseURL: "https://hello-soldier.firebaseio.com",
-    projectId: "hello-soldier",
-    storageBucket: "hello-soldier.appspot.com",
-    messagingSenderId: "413393423185",
-    appId: "1:413393423185:web:6b85cb07095d4339"
-		};
-		// Initialize Firebase
-		firebase.initializeApp(firebaseConfig);
-
-		// Set Firebase vars
-		var auth = firebase.auth()
-		const provider = new firebase.auth.GoogleAuthProvider();
-		var database = firebase.database();
-
-		// Firebase auth methods
-		auth.onAuthStateChanged(onAuthStateChanged.bind(this));
-
-		// Find DOM elements
-		var buttonAuth = document.querySelector('.js-button-auth')
-		var buttonOut = document.querySelector('.js-button-out')
-		var divCms = document.querySelector('.js-cms')
-		var selectDay = document.querySelector('.js-day')
-		var divEntries = document.querySelector('.js-entries')
-		var radioGoodDay = document.querySelector('.js-goodDay')
-		var radioBadDay = document.querySelector('.js-badDay')
-		var divCommentContainer = document.querySelector('.js-comment-container')
-		var inputComment = document.querySelector('.js-comment')
-
-
-		// Read DB
-		readDB();
-
-		// Form methods
-		function checkIfEntryIsRight() {
-			let isRight = true
-			if(!selectDay.value || (!radioGoodDay.checked && !radioBadDay.checked) ){
-				isRight = false
-			}
-			return isRight
-		}
-
-		function checkStatus() {
-			if (radioGoodDay.checked) {
-				divCommentContainer.style.display = 'block';
-			} else {
-				inputComment.value = null
-				divCommentContainer.style.display = 'none';
-			}
-		}
-
-		function getEmojiToSend(){
-			var emoji = '?'
-			if (radioGoodDay.checked) {
-				emoji = ':)'
-			} else if (radioBadDay.checked) {
-				emoji = ':('
-			}
-			return emoji
-		}
-
-		// Auth methods
-		function openAuth() {
-			auth.signInWithPopup(provider);
-		}
-
-		function signOut () {
-			auth.signOut();
-		}
-
-		function onAuthStateChanged(user) {
-			if(user){
-				console.log('El que poner en las rules es', user.uid);
-				// console.log(user, user.photoURL, user.displayName, user.email);
-				buttonOut.style.display = 'inline'
-				buttonAuth.style.display = 'none'
-				divCms.style.display = 'inline'
-			} else {
-				buttonAuth.style.display = 'inline'
-				buttonOut.style.display = 'none'
-				divCms.style.display = 'none'
-			}
-		}
-
-		// DB methods
-		function readDB () {
-			var entriesRef = database.ref('/')
-			entriesRef.on('value', function(snapshot) {
-				if(snapshot.val()) {
-					renderEntries(snapshot.val());
-				}
-			});
-		}
-
-		function writeDB () {
-			if (checkIfEntryIsRight()) {
-				var year = selectDay.value.substr(0,4)
-				database.ref(year + '/' + selectDay.valueAsNumber).set({
-					status: getEmojiToSend(),
-					comment: inputComment.value
-				});
-				inputComment.value = null
-			}
-		}
-
-		function renderEntries (object) {
-			divEntries.innerHTML = ''
-			var year = (object['2020']);
-			for (const property in year) {
-				let date = new Date(Number(property)).toDateString()
-				divEntries.innerHTML += '<div>'
-				divEntries.innerHTML += date + ' / ' + year[property].status
-				if(year[property].comment) {
-					divEntries.innerHTML +=  ' / comment: ' + year[property].comment
-				}
-				divEntries.innerHTML += '</div>'
-			}
-		}
-	</script>
 	<script src="assets/js/app.js" type="module"></script>
 </body>
 </html>
