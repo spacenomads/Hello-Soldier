@@ -46,4 +46,8 @@ function createCalendar(year, db, container) {
 
 
 
-export {createCalendar};
+export {
+	createCalendar,
+	getTotalDays,
+	dateFromDay
+};

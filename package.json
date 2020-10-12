@@ -2,9 +2,9 @@
   "name": "hellosoldier",
   "version": "1.0.0",
   "description": "My online version of Brigada Creativa's **Life Calendar \"how was your day?\"** ( [http://artfucksme.com/how-was-your-day-life-calendar-by-brigada-cre/](http://artfucksme.com/how-was-your-day-life-calendar-by-brigada-cre/) )",
-  "main": "index.js",
+  "main": "assets/js/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watch ./test"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/spacenomads/Hello-Soldier#readme",
   "devDependencies": {
-    "stylelint": "^13.7.2",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^26.5.3",
     "stylelint-config-standard": "^20.0.0",
-    "stylelint-scss": "^3.18.0"
+    "stylelint-scss": "^3.18.0",
+    "stylelint": "^13.7.2"
   }
 }
